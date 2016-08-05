@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="it">
+<head>
+	<meta charset="utf-8">
+
+	<title>Title</title>
+	<meta name="description" content="">
+	<meta name="author" content="Brixel, Riccardo Gagliarducci">
+
+	<link rel="stylesheet" href="css/styles.css?v=1.0">
+
+	<script src="jssvg.js"></script>
+
+</head>
+<body>
+
+
+<p>
+My drawing.
+</p>
+
+
+<div id="quadro-originale">
+
+
+
+
+
+<script>
+
+//Svg element creation
+var svg = svg("originale", undefined, "-80 -80 760 760" );
+
+
+//Table group
+var originalTable = svgGroup('originale-tabella');
+
+
+
+//Add frame group
+var frame = svgGroup("group");
+frame.setAttribute('id', 'frame');
+
+//Create and add space for gradients
+var def = svgDefs();
+svg.appendChild(def);
+
+var gradSteps = [
+		{offset:'30%', 'stop-color':'#C3922E'},
+		{offset:'32%', 'stop-color':'#F6C525'},
+		{offset:'50%', 'stop-color':'#FBC926'},
+		{offset:'70%', 'stop-color':'#C3922E'},
+		{offset:'85%','stop-color':'#FBC926'}
+	];
+
+//Create gradients
+var gradTop = svgGradient('fTop', gradSteps, "rotate(90)");
+var gradBottom = svgGradient('fBottom', gradSteps, "rotate(270, 1 ,0)");
+var gradLeft = svgGradient('fLeft', gradSteps, "rotate(0)");
+var gradRight = svgGradient('fRight', gradSteps, "rotate(180, 0.5, 0 )" );
+
+//Add gradients
+def.appendChild(gradTop);
+def.appendChild(gradBottom);
+def.appendChild(gradLeft);
+def.appendChild(gradRight);
+
+
+
+//Pattern
+
+//Create pattern
+var pattern = svgPattern("Patter_n", 240, 320); //"translate(-40,40)"
+
+//Create Image
+var patternImage = svgImage("sfondino", "Eater.png", 240, 320)
+
+//Append image to pattern
+pattern.appendChild(patternImage);
+//Append pattern to def
+def.appendChild(pattern);
+
+
+//Create rect style
+var rectStyle = new svgStyle( 'url(#Patter_n)' );
+
+//Create rect
+var rect = svgRect("RectTest", 0, 0, 600, 600, rectStyle)
+
+//Append rect to svg
+svg.appendChild(rect);
+
+
+
+//Frames
+var style = new svgStyle('url(#fTop)', undefined, "none");
+var d = "m -80,-80 80,80 600,0 80,-80 z";
+var frameTop = svgPath('frameTop', d, style);
+frame.appendChild(frameTop);
+
+var style = new svgStyle('url(#fBottom)', undefined, "none");
+var d = "m -80,680 80,-80 600,0 80,80 z";
+var frameBottom = svgPath('frameBottom', d, style);
+frame.appendChild(frameBottom);
+
+var style = new svgStyle('url(#fLeft)', undefined, "none");
+var d = "m -80,-80 80,80 0,600 -80,80 z";
+var frameLeft = svgPath('frameLeft', d, style);
+frame.appendChild(frameLeft);
+
+var style = new svgStyle('url(#fRight)', undefined, "none");
+var d = "m 600,0 80,-80 0,760 -80,-80 z";
+var frameRight = svgPath('frameRight', d, style);
+frame.appendChild(frameRight);
+
+
+//Add whole frame group
+svg.appendChild(frame);
+
+//Svg container
+var cont = document.getElementById('quadro-originale');
+cont.appendChild(svg);
+
+
+</script>
+
+
+
+</body>
+</html>
